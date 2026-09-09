@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Complaints</title><link rel="stylesheet" href="css/style.css"></head>
+<body>
+<header class="navbar"><h2>Smart Society</h2><nav><a href="index.html">Dashboard</a><a href="residents.html">Residents</a><a href="notices.html">Notices</a><a href="complaints.html">Complaints</a><a href="bills.html">Bills</a></nav></header>
+<main class="container"><h1>Complaints</h1>
+<form id="complaintForm" class="form">
+<input type="text" id="streetName" placeholder="Street Name / Door No." required>
+<input type="text" id="areaName" placeholder="Area / City Name" required>
+<input id="subject" placeholder="Subject" required>
+<textarea id="description" placeholder="Description" required></textarea>
+<input type="file" id="photo" accept="image/*" required>
+<button type="button" id="getGpsBtn">Get GPS Location</button>
+<p id="locationStatus"></p>
+<button type="submit">Submit Complaint</button>
+</form>
+<div id="complaintList" class="list"></div>
+</main>
+<script src="js/complaints.js"></script>
+</body></html>

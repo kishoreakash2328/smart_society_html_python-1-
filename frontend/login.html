@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Society - Login & Sign Up</title>
+    <link rel="apple-touch-icon" href="images/logo.png">
+    <meta name="apple-mobile-web-app-title" content="Smart Society">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background-color: #0f172a; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: #333; padding: 20px; }
+        .login-card { background: white; padding: 30px; border-radius: 12px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .logo-img { height: 65px; width: auto; margin-bottom: 15px; object-fit: contain; }
+        .input-group { margin-bottom: 12px; text-align: left; }
+        .input-group label { display: block; font-size: 13px; margin-bottom: 5px; font-weight: 600; color: #475569; }
+        .input-group input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; }
+        .btn { width: 100%; padding: 10px; background: #2563eb; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 5px; }
+        .btn-google { background: #ea4335; margin-bottom: 15px; }
+        .divider { margin: 15px 0; border-bottom: 1px solid #e2e8f0; position: relative; }
+        .divider span { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: white; padding: 0 10px; font-size: 12px; color: #64748b; }
+        .toggle-link { margin-top: 15px; font-size: 13px; color: #2563eb; cursor: pointer; text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <img src="images/logo.png" alt="Smart Society Logo" class="logo-img" onerror="this.src='logo.png'">
+        
+        <h2 id="formTitle">Smart Society Login</h2>
+        <p style="font-size: 13px; color: #64748b; margin-bottom: 20px;" id="formSub">Access your society portal</p>
+
+        <!-- Form Section -->
+        <form id="authForm" onsubmit="handleAuth(event)">
+            
+            <div class="input-group" id="nameGroup" style="display: none;">
+                <label>Full Name</label>
+                <input type="text" id="fullname" placeholder="Enter your full name">
+            </div>
+
+            <div class="input-group">
+                <label>Email Address / Google ID</label>
+                <input type="email" id="email" placeholder="example@gmail.com" required>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit" class="btn" id="submitBtn">Sign In</button>
+        </form>
+
+        <div class="divider"><span>OR</span></div>
+
+        <!-- Google Direct Button -->
+        <button type="button" class="btn btn-google" onclick="googleLogin()">🌐 Continue with Google ID</button>
+
+        <!-- Mobile OTP Login (iOS & Android) -->
+        <form onsubmit="doOTPLogin(event)">
+            <div class="input-group">
+                <label>Mobile OTP (iOS / Android)</label>
+                <input type="tel" id="mobile" placeholder="10 digit mobile number">
+            </div>
+            <button type="button" class="btn" id="sendBtn" style="background-color: #475569;" onclick="sendOTP()">Send OTP</button>
+
+            <div class="input-group" id="otpBox" style="display: none; margin-top: 10px;">
+                <label>Enter OTP (Use Demo: 1234)</label>
+                <input type="text" id="otp" placeholder="1234">
+                <button type="submit" class="btn" style="background-color: #10b981; margin-top: 8px;">Verify OTP & Login</button>
+            </div>
+        </form>
+
+        <!-- Switch between Login & Sign Up -->
+        <div class="toggle-link" id="toggleBtn" onclick="toggleMode()">Don't have an account? Create New Account</div>
+    </div>
+
+    <script>
+        let isSignUp = false;
+
+        function toggleMode() {
+            isSignUp = !isSignUp;
+            document.getElementById("nameGroup").style.display = isSignUp ? "block" : "none";
+            document.getElementById("formTitle").innerText = isSignUp ? "Create Account" : "Smart Society Login";
+            document.getElementById("formSub").innerText = isSignUp ? "Register new resident account" : "Access your society portal";
+            document.getElementById("submitBtn").innerText = isSignUp ? "Register Account" : "Sign In";
+            document.getElementById("toggleBtn").innerText = isSignUp ? "Already have an account? Sign In" : "Don't have an account? Create New Account";
+        }
+
+        function handleAuth(e) {
+            e.preventDefault();
+            localStorage.setItem("isLoggedIn", "true");
+            alert(isSignUp ? "Account Created Successfully!" : "Login Successful!");
+            window.location.href = "index.html";
+        }
+
+        function googleLogin() {
+            localStorage.setItem("isLoggedIn", "true");
+            alert("Signed in with Google ID successfully!");
+            window.location.href = "index.html";
+        }
+
+        function sendOTP() {
+            let m = document.getElementById("mobile").value;
+            if(m.length === 10) {
+                alert("OTP sent to " + m + " (Use Demo OTP: 1234)");
+                document.getElementById("otpBox").style.display = "block";
+                document.getElementById("sendBtn").style.display = "none";
+            } else {
+                alert("Please enter a valid 10 digit mobile number");
+            }
+        }
+
+        function doOTPLogin(e) {
+            e.preventDefault();
+            if(document.getElementById("otp").value === "1234") {
+                localStorage.setItem("isLoggedIn", "true");
+                window.location.href = "index.html";
+            } else {
+                alert("Invalid OTP! Use 1234");
+            }
+        }
+    </script>
+</body>
+</html>
